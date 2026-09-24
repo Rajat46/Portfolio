@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>US Healthcare Enterprise Product Ecosystem | Rajat Bhandari</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono:ital@0;1&family=Geist:wght@300;400;500;600;700;800;900&family=Inter+Tight:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --token-canvas-light: #f4f4f4;
+      --token-canvas-dark: #000000;
+      --token-surface-pure: #ffffff;
+      --token-surface-subtle: #fafafa;
+      --token-surface-neutral: #eeeeee;
+      --token-border-hairline: #e6e6e6;
+      --token-border-mid: #dadada;
+      --token-border-dark: #222222;
+      
+      --token-text-solid: #000000;
+      --token-text-body: #1a1a1a;
+      --token-text-secondary: #605f5f;
+      --token-text-muted: #828282;
+      --token-text-faint: #aeaeae;
+      
+      --font-geist: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-inter-tight: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: "Fragment Mono", monospace;
+      
+      --container-max: 1440px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--token-canvas-light);
+      color: var(--token-text-body);
+      overflow-x: hidden;
+      font-family: var(--font-geist);
+      line-height: 1.5;
+    }
+
+    /* Floating Capsule Header (Always visible for quick back-navigation) */
+    .header-fixed-wrap {
+      position: fixed;
+      top: 24px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      pointer-events: none;
+      padding: 0 20px;
+    }
+
+    .nav-glass-capsule {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      height: 44px;
+      background: rgba(18, 18, 18, 0.85);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 9999px;
+      padding: 0 6px 0 18px;
+      box-sizing: border-box;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      line-height: 1;
+    }
+
+    .nav-glass-capsule:hover {
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      text-decoration: none;
+      font-family: var(--font-geist);
+      transition: opacity 0.2s ease;
+      vertical-align: middle;
+    }
+
+    .nav-logo span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .nav-logo:hover {
+      opacity: 0.85;
+    }
+
+    .nav-logo-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-icon svg {
+      display: block;
+      width: 12px;
+      height: 12px;
+      fill: #000000;
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.18);
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    .nav-back-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 32px;
+      padding: 0 16px;
+      box-sizing: border-box;
+      font-family: var(--font-inter-tight);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: #000000;
+      background: #ffffff;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    .nav-back-cta span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .nav-back-cta svg {
+      display: block;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-back-cta:hover {
+      transform: scale(1.03);
+      background: #f4f4f4;
+    }
+
+    .nav-back-cta:hover svg {
+      transform: translateX(-2px);
+    }
+
+    /* ==========================================================================
+       HERO SECTION — KINETIC METAL FLOW & FOLIRA BILLBOARD THEME
+       ========================================================================== */
+    .hero-stage {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--token-canvas-dark);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Fullscreen WebGL Kinetic Metal Flow Canvas */
+    .kinetic-metal-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      display: block;
+    }
+
+    /* Contrast Vignette Overlay for Typography Legibility */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.78) 100%);
+    }
+
+    .hero-container {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 80px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* Central Content */
+    .hero-center-content {
+      width: 100%;
+      max-width: 1300px;
+      margin: 64px 0 36px;
+      z-index: 5;
+    }
+
+    .hero-main-title {
+      font-family: var(--font-geist);
+      font-size: clamp(38px, 5.6vw, 78px);
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Bespoke Geist outline stroke for ECOSYSTEM */
+    .title-outline {
+      font-family: var(--font-geist);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: transparent;
+      -webkit-text-stroke: 2px #ffffff;
+      display: inline-block;
+    }
+
+    /* Editorial Domain Subtitle: Patient, Payer and Provider */
+    .hero-domain-subline {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-family: var(--font-inter-tight);
+      font-size: clamp(18px, 2.2vw, 28px);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.78);
+      margin-bottom: 56px;
+    }
+
+    .hero-domain-subline .subline-dot {
+      color: rgba(255, 255, 255, 0.35);
+      font-size: 0.6em;
+      vertical-align: middle;
+    }
+
+    /* Stats Grid */
+    .hero-stats-container {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .stats-row {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 36px 64px;
+    }
+
+    .stat-unit {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .stat-number {
+      font-family: var(--font-geist);
+      font-size: clamp(28px, 3.4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #ffffff;
+      line-height: 1;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-label-text {
+      font-family: var(--font-inter-tight);
+      font-size: clamp(18px, 2.3vw, 32px);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1;
+    }
+
+    /* Bottom Decorative / Metadata Tag */
+    .hero-bottom-spacer {
+      height: 1px;
+      width: 100%;
+    }
+
+    /* Seamless Connected Back-to-Back Image Showcase */
+    .showcase-stream {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      line-height: 0;
+      font-size: 0;
+      background: #000;
+    }
+
+    .showcase-stream img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+      vertical-align: top;
+      cursor: zoom-in;
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow: auto;
+      padding: 24px;
+      display: none;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox img {
+      max-width: 98vw;
+      max-height: 96vh;
+      object-fit: contain;
+      border-radius: 6px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 24px;
+      right: 28px;
+      color: #ffffff;
+      font: 500 13px var(--font-geist);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 9999px;
+      padding: 8px 18px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: background 0.2s ease;
+      z-index: 2010;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 809.98px) {
+      .hero-container {
+        padding: 24px 20px 48px;
+        min-height: auto;
+      }
+      .top-menu-items {
+        gap: 20px;
+      }
+      .hero-center-content {
+        margin: 48px 0 24px;
+      }
+      .hero-main-title {
+        font-size: clamp(28px, 7vw, 44px);
+        margin-bottom: 14px;
+        letter-spacing: -0.04em;
+      }
+      .title-outline {
+        -webkit-text-stroke: 1.2px var(--token-text-solid);
+      }
+      .hero-domain-subline {
+        font-size: clamp(14px, 3.8vw, 19px);
+        gap: 8px;
+        margin-bottom: 36px;
+      }
+      .stats-row {
+        gap: 24px 36px;
+      }
+      .stat-unit {
+        gap: 10px;
+      }
+      .stat-number {
+        font-size: clamp(24px, 5.5vw, 36px);
+      }
+      .stat-label-text {
+        font-size: clamp(15px, 3.8vw, 22px);
+      }
+      .header-fixed-wrap {
+        top: 16px;
+        padding: 0 12px;
+      }
+      .nav-glass-capsule {
+        gap: 12px;
+        height: 40px;
+        padding: 0 4px 0 14px;
+      }
+      .nav-logo {
+        font-size: 13px;
+        gap: 8px;
+      }
+      .nav-logo-icon {
+        width: 20px;
+        height: 20px;
+      }
+      .nav-back-cta {
+        font-size: 12px;
+        height: 30px;
+        padding: 0 12px;
+        gap: 6px;
+      }
+    }
+
+    
+    /* ── Case Study Floating Navigation ── */
+    .case-float-nav {
+      position: fixed;
+      bottom: 32px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(0,0,0,0.09);
+      border-radius: 16px;
+      padding: 12px 18px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.09);
+      transition: transform 0.22s cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 0.22s ease,
+                  border-color 0.22s ease;
+      font-family: var(--font-inter-tight, sans-serif);
+      max-width: 200px;
+    }
+    .case-float-nav:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 44px rgba(0,0,0,0.14);
+      border-color: rgba(0,0,0,0.18);
+    }
+    .case-float-nav--next { right: 32px; align-items: flex-end; text-align: right; }
+    .case-float-nav--prev { left:  32px; align-items: flex-start; text-align: left; }
+
+    .case-float-nav__label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .case-float-nav__title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.3;
+    }
+    .case-float-nav__arrow {
+      width: 12px;
+      height: 12px;
+      stroke: #aaa;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.2s cubic-bezier(0.16,1,0.3,1),
+                  stroke 0.2s ease;
+    }
+    .case-float-nav--next:hover .case-float-nav__arrow { transform: translateX(3px); stroke: #111; }
+    .case-float-nav--prev:hover .case-float-nav__arrow { transform: translateX(-3px); stroke: #111; }
+
+    @media (max-width: 768px) {
+      .case-float-nav { bottom: 20px; padding: 10px 14px; max-width: 160px; }
+      .case-float-nav--next { right: 16px; }
+      .case-float-nav--prev { left:  16px; }
+      .case-float-nav__title { font-size: 12px; }
+    }
+
+  
+    /* --- INJECTED HEADER CSS FROM POA --- */
+    .header-fixed-wrap {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 0 24px;
+      pointer-events: none;
+    }
+
+    .nav-glass-capsule {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 9999px;
+      padding: 6px 8px 6px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.03em;
+      color: #000;
+      text-decoration: none;
+      font-family: var(--font-geist, "Geist", sans-serif);
+    }
+    
+    .nav-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    .nav-back-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 32px;
+      padding: 0 16px;
+      box-sizing: border-box;
+      font-family: var(--font-inter-tight, "Inter Tight", sans-serif);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: #000000;
+      background: #ffffff;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-back-cta span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .nav-back-cta svg {
+      display: block;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-back-cta:hover {
+      transform: scale(1.03);
+      background: #f4f4f4;
+    }
+
+    .nav-back-cta:hover svg {
+      transform: translateX(-2px);
+    }
+
+  
+    /* --- INJECTED LAYOUT FIX --- */
+    .page-layout {
+      padding-top: 64px !important;
+    }
+    @media (max-width: 900px) {
+      .page-layout {
+        padding-top: 40px !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Floating Capsule Header for Quick Back-Nav -->
+  <header class="header-fixed-wrap" id="fixedCapsuleHeader">
+    <nav class="nav-glass-capsule">
+      <a href="index.html#work" class="nav-logo" title="Rajat Bhandari Portfolio">
+        <span>Rajat Bhandari</span>
+      </a>
+      <div class="nav-divider" aria-hidden="true"></div>
+      <a href="index.html#work" class="nav-back-cta">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 8H3M7 12L3 8l4-4"/>
+        </svg>
+        <span>Back to Portfolio</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Top Hero Section (Kinetic Metal Flow Billboard) -->
+  <section class="hero-stage">
+    <!-- Live WebGL Kinetic Metal Flow Shader Canvas -->
+    <canvas id="watercolorCanvas" class="kinetic-metal-canvas"></canvas>
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-container">
+
+      <!-- Main Headline & Metrics -->
+      <div class="hero-center-content">
+        <h1 class="hero-main-title">
+          US HEALTHCARE ENTERPRISE<br>
+          PRODUCT <span class="title-outline">ECO SYSTEM</span>
+        </h1>
+        <div class="hero-domain-subline">
+          <span>Patient</span>
+          <span class="subline-dot">&bull;</span>
+          <span>Payer</span>
+          <span class="subline-dot">&bull;</span>
+          <span>Provider</span>
+        </div>
+
+        <div class="hero-stats-container">
+          <div class="stats-row">
+            <div class="stat-unit">
+              <span class="stat-number">15+</span>
+              <span class="stat-label-text">CLIENTS</span>
+            </div>
+            <div class="stat-unit">
+              <span class="stat-number">3+</span>
+              <span class="stat-label-text">DOMAIN</span>
+            </div>
+            <div class="stat-unit">
+              <span class="stat-number">20+</span>
+              <span class="stat-label-text">PROJECTS</span>
+            </div>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat-unit">
+              <span class="stat-number">5+</span>
+              <span class="stat-label-text">TECHNOLOGY</span>
+            </div>
+            <div class="stat-unit">
+              <span class="stat-number">50+</span>
+              <span class="stat-label-text">TEAM ALIGNED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seamless Connected Back-to-Back Product Showcase (Zero Space) -->
+  <main class="showcase-stream">
+    <img src="US%20Healthcare/Dashboard.jpg" alt="Mirra Healthcare Dashboard">
+    <img src="US%20Healthcare/Census.jpg" alt="Inpatient Census Tracker">
+    <img src="US%20Healthcare/Provider.jpg" alt="Provider Portal">
+    <img src="US%20Healthcare/CM.jpg" alt="Care Management">
+    <img src="US%20Healthcare/Cred.jpg" alt="Provider Credentialing">
+    <img src="US%20Healthcare/CSM.jpg" alt="Clinical Support Management">
+    <img src="US%20Healthcare/Biiling.jpg" alt="Healthcare Billing Management">
+    <img src="US%20Healthcare/BPCI.jpg" alt="BPCI Episode Analytics">
+    <img src="US%20Healthcare/BPCI_M.jpg" alt="BPCI Episode Monitoring">
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-label="Enlarged view" aria-hidden="true">
+    <button class="lightbox-close" type="button" id="lightbox-close">Close ✕</button>
+    <img alt="" id="lightbox-img">
+  </div>
+
+  <script>
+    (function () {
+      // Toggle floating capsule header when scrolling past hero
+      var fixedHeader = document.getElementById('fixedCapsuleHeader');
+      function onScroll() {
+        if (window.scrollY > 300) {
+          fixedHeader.classList.add('scrolled');
+        } else {
+          fixedHeader.classList.remove('scrolled');
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Lightbox functionality
+      var box = document.getElementById('lightbox');
+      var big = document.getElementById('lightbox-img');
+      var closeBtn = document.getElementById('lightbox-close');
+
+      function open(img) {
+        big.src = img.src;
+        big.alt = img.alt;
+        box.classList.add('open');
+        box.setAttribute('aria-hidden', 'false');
+        box.scrollTop = 0;
+      }
+
+      function close() {
+        box.classList.remove('open');
+        box.setAttribute('aria-hidden', 'true');
+      }
+
+      document.querySelectorAll('.showcase-stream img').forEach(function (img) {
+        img.setAttribute('tabindex', '0');
+        img.setAttribute('role', 'button');
+        img.addEventListener('click', function () { open(img); });
+        img.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open(img);
+          }
+        });
+      });
+
+      if (closeBtn) closeBtn.addEventListener('click', close);
+      box.addEventListener('click', function (e) {
+        if (e.target !== big) close();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') close();
+      });
+    })();
+
+    // ==========================================================================
+    // KINETIC METAL FLOW — WebGL Molten Chrome Shader Engine
+    // (Exact Framer Marketplace Shader: https://www.framer.com/marketplace/components/kinetic-metal-flow/)
+    // ==========================================================================
+    (function initKineticMetalFlow() {
+      var canvas = document.getElementById('kineticMetalCanvas');
+      if (!canvas) return;
+
+      var gl = canvas.getContext('webgl', { alpha: true, antialias: false, preserveDrawingBuffer: false }) ||
+               canvas.getContext('experimental-webgl', { alpha: true, antialias: false, preserveDrawingBuffer: false });
+      if (!gl) {
+        console.warn('WebGL not supported for Kinetic Metal Flow background.');
+        return;
+      }
+
+      function createShader(type, source) {
+        var shader = gl.createShader(type);
+        if (!shader) return null;
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+          gl.deleteShader(shader);
+          return null;
+        }
+        return shader;
+      }
+
+      var vsSource = [
+        'attribute vec2 position;',
+        'void main() {',
+        '    gl_Position = vec4(position, 0.0, 1.0);',
+        '}'
+      ].join('\n');
+
+      var fsSource = [
+        'precision highp float;',
+        'uniform vec2 u_res;',
+        'uniform float u_time;',
+        'uniform float u_colorScale;',
+        'uniform float u_frequency;',
+        'uniform vec3 u_baseColor;',
+        '',
+        'vec2 distort(vec2 p, float offset) {',
+        '    p += offset;',
+        '    for (float i = 1.0; i < 4.0; i++) {',
+        '        p.x += 0.3 / i * sin(i * 3.0 * p.y + u_time);',
+        '        p.y += 0.3 / i * cos(i * 3.0 * p.x + u_time);',
+        '    }',
+        '    return p;',
+        '}',
+        '',
+        'void main() {',
+        '    vec2 uv = gl_FragCoord.xy / u_res.xy;',
+        '',
+        '    float r = sin(distort(uv, 0.0).x * u_frequency) * 0.5 + 0.5;',
+        '    float g = sin(distort(uv, 0.02).x * u_frequency) * 0.5 + 0.5;',
+        '    float b = sin(distort(uv, 0.04).x * u_frequency) * 0.5 + 0.5;',
+        '',
+        '    vec3 color = pow(vec3(r, g, b), vec3(u_colorScale));',
+        '    vec3 finalColor = mix(u_baseColor, color, 0.82);',
+        '',
+        '    gl_FragColor = vec4(finalColor, 1.0);',
+        '}'
+      ].join('\n');
+
+      var vs = createShader(gl.VERTEX_SHADER, vsSource);
+      var fs = createShader(gl.FRAGMENT_SHADER, fsSource);
+      if (!vs || !fs) return;
+
+      var program = gl.createProgram();
+      if (!program) return;
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error('Program link error:', gl.getProgramInfoLog(program));
+        return;
+      }
+      gl.useProgram(program);
+
+      // Fullscreen quad (2 triangles)
+      var vertices = new Float32Array([
+        -1, -1,
+         1, -1,
+        -1,  1,
+        -1,  1,
+         1, -1,
+         1,  1
+      ]);
+
+      var buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+      var posAttrib = gl.getAttribLocation(program, 'position');
+      gl.enableVertexAttribArray(posAttrib);
+      gl.vertexAttribPointer(posAttrib, 2, gl.FLOAT, false, 0, 0);
+
+      var uniforms = {
+        res: gl.getUniformLocation(program, 'u_res'),
+        time: gl.getUniformLocation(program, 'u_time'),
+        colorScale: gl.getUniformLocation(program, 'u_colorScale'),
+        frequency: gl.getUniformLocation(program, 'u_frequency'),
+        baseColor: gl.getUniformLocation(program, 'u_baseColor')
+      };
+
+      // Configuration matching Kinetic Metal Flow defaults
+      var config = {
+        speed: 0.5,           // Flow speed (0.01 - 2.0)
+        frequency: 4.8,       // Wave density (1.0 - 20.0)
+        colorScale: 7.5,      // Contrast power (highlights balance)
+        baseColor: [0.0196, 0.0196, 0.022] // Deep obsidian liquid metal
+      };
+
+      var timeValue = 0;
+      var animFrameId = null;
+      var isVisible = true;
+
+      function resize() {
+        if (!canvas || !gl || !uniforms.res) return;
+        var rect = canvas.getBoundingClientRect();
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var width = Math.floor(rect.width * dpr);
+        var height = Math.floor(rect.height * dpr);
+
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+          gl.viewport(0, 0, width, height);
+          gl.uniform2f(uniforms.res, width, height);
+        }
+      }
+
+      function frame() {
+        if (!gl || !program || !isVisible) return;
+        timeValue += config.speed * 0.015;
+
+        gl.uniform1f(uniforms.time, timeValue);
+        gl.uniform1f(uniforms.colorScale, config.colorScale);
+        gl.uniform1f(uniforms.frequency, config.frequency);
+        gl.uniform3f(uniforms.baseColor, config.baseColor[0], config.baseColor[1], config.baseColor[2]);
+
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        animFrameId = requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          isVisible = false;
+          if (animFrameId) cancelAnimationFrame(animFrameId);
+        } else {
+          isVisible = true;
+          animFrameId = requestAnimationFrame(frame);
+        }
+      });
+
+      // Interactive gentle acceleration on pointer move
+      var hero = document.querySelector('.hero-stage');
+      if (hero) {
+        hero.addEventListener('mousemove', function (e) {
+          var rect = hero.getBoundingClientRect();
+          var normX = (e.clientX - rect.left) / rect.width - 0.5;
+          timeValue += Math.abs(normX) * 0.004;
+        }, { passive: true });
+      }
+
+      resize();
+      frame();
+    })();
+  </script>
+
+  <!-- ==========================================================================
+       GSAP CORE & SCROLLTRIGGER CDN
+       ========================================================================== -->
+  <script src="js/gsap.min.js"></script>
+  <script src="js/ScrollTrigger.min.js"></script>
+
+  <script>
+    // ==========================================================================
+    // GSAP ANIMATION ENGINE
+    // ==========================================================================
+    document.addEventListener("DOMContentLoaded", function () {
+      if (typeof gsap === "undefined") return;
+
+      // Register ScrollTrigger plugin
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Check reduced motion preference
+      var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      // 1. HERO ENTRANCE TIMELINE
+      var tl = gsap.timeline({
+        defaults: { ease: "power3.out", duration: 1.0 }
+      });
+
+      // Animate Main Display Headline with subtle blur dissolution
+      tl.from(".hero-main-title", {
+        y: 40,
+        opacity: 0,
+        filter: "blur(8px)",
+        duration: 1.2,
+      })
+      // Stagger Domain Subline pills (Patient • Payer • Provider)
+      .from(".hero-domain-subline span", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.08,
+        duration: 0.7,
+      }, "-=0.7")
+      // Stagger Stat Units
+      .from(".stat-unit", {
+        y: 25,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+      }, "-=0.5");
+
+      // 2. ANIMATED NUMBER COUNTERS (15+, 3+, 20+, 5+, 100+)
+      document.querySelectorAll(".stat-number").forEach(function (el) {
+        var rawText = el.textContent.trim();
+        var targetNum = parseInt(rawText, 10);
+        if (isNaN(targetNum)) return;
+
+        var hasPlus = rawText.indexOf("+") !== -1;
+        var counterObj = { val: 0 };
+
+        // Start counting smoothly as part of the entrance
+        gsap.to(counterObj, {
+          val: targetNum,
+          duration: 1.8,
+          delay: 0.4,
+          ease: "power2.out",
+          onUpdate: function () {
+            el.textContent = Math.round(counterObj.val) + (hasPlus ? "+" : "");
+          }
+        });
+      });
+
+      // 3. ULTRA-SMOOTH MOUSE PARALLAX (quickTo 120fps)
+      var hero = document.querySelector(".hero-stage");
+      var heroContent = document.querySelector(".hero-center-content");
+      if (hero && heroContent) {
+        var xTo = gsap.quickTo(heroContent, "x", { duration: 0.7, ease: "power3" });
+        var yTo = gsap.quickTo(heroContent, "y", { duration: 0.7, ease: "power3" });
+
+        hero.addEventListener("mousemove", function (e) {
+          var rect = hero.getBoundingClientRect();
+          var normX = (e.clientX - rect.left) / rect.width - 0.5;
+          var normY = (e.clientY - rect.top) / rect.height - 0.5;
+          xTo(normX * 22);
+          yTo(normY * 16);
+        }, { passive: true });
+
+        hero.addEventListener("mouseleave", function () {
+          xTo(0);
+          yTo(0);
+        });
+      }
+
+      // 4. SCROLLTRIGGER IMAGE STREAM REVEAL
+      gsap.utils.toArray(".showcase-stream img").forEach(function (img, index) {
+        gsap.from(img, {
+          scrollTrigger: {
+            trigger: img,
+            start: "top 88%",
+            toggleActions: "play none none none",
+            once: true
+          },
+          opacity: 0,
+          y: 35,
+          scale: 0.985,
+          duration: 1.0,
+          ease: "power2.out"
+        });
+      });
+
+      // 5. FLOATING HEADER CAPSULE ENHANCEMENT
+      // The capsule is permanently floating with backdrop blur,
+      // providing instant back navigation from anywhere on the page.
+    });
+  </script>
+
+  <script src="js/watercolor_shader.js"></script>
+
+<a href="darkmode.html" class="case-float-nav case-float-nav--prev" aria-label="Prev case study: Dell Dark Mode">
+  <span class="case-float-nav__label"><svg class="case-float-nav__arrow" viewBox="0 0 12 12"><path d="M10 6H2M5 3L2 6l3 3"/></svg> Previous Case Study</span>
+  <span class="case-float-nav__title">Dell Dark Mode</span>
+</a>
+<a href="aakar.html" class="case-float-nav case-float-nav--next" aria-label="Next case study: Aakar Framework">
+  <span class="case-float-nav__label">Next Case Study <svg class="case-float-nav__arrow" viewBox="0 0 12 12"><path d="M2 6h8M7 3l3 3-3 3"/></svg></span>
+  <span class="case-float-nav__title">Aakar Framework</span>
+</a>
+
+</body>
+</html>

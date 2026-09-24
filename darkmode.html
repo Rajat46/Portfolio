@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dell Dark Mode — Case Study | Rajat Bhandari</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Geist:wght@300;400;500;600;700;900&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+
+    
+
+    :root {
+      --canvas: #f4f4f4;
+      --surface: #ffffff;
+      --border: #e6e6e6;
+      --text-main: #000000;
+      --text-body: #1a1a1a;
+      --text-muted: #828282;
+      
+      --font-geist: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-inter-tight: "Inter Tight", sans-serif;
+      --font-inter: "Inter", sans-serif;
+      --font-mono: "Fragment Mono", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--canvas);
+      color: var(--text-body);
+      font-family: var(--font-geist);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .article-layout p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      color: var(--text-body);
+      letter-spacing: -0.02em;
+    }
+
+    /* Floating Header */
+    .header-fixed-wrap {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 0 24px;
+      pointer-events: none;
+    }
+    
+    .article-layout ul {
+      font-size: 18px;
+      line-height: 1.6;
+      color: var(--text-body);
+      letter-spacing: -0.02em;
+    }
+    .article-layout li {
+      margin-bottom: 8px;
+    }
+    .nav-glass-capsule {
+      pointer-events: auto;
+      display: flex; align-items: center; gap: 32px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 9999px;
+      padding: 6px 14px 6px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 600; font-size: 15px; letter-spacing: -0.03em;
+      color: var(--text-main); text-decoration: none; font-family: var(--font-geist);
+    }
+    .nav-logo-icon {
+      width: 20px; height: 20px; border-radius: 6px; background: #000;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-icon svg { width: 12px; height: 12px; fill: #fff; }
+    .nav-link {
+      font-family: var(--font-inter-tight);
+      font-size: 14px; font-weight: 500; letter-spacing: -0.02em;
+      color: var(--text-muted); text-decoration: none; padding: 6px 14px;
+      border-radius: 99px; transition: 0.2s ease;
+    }
+    .nav-link:hover { color: var(--text-main); background: rgba(0,0,0,0.04); }
+
+    
+    /* Page Layout for Sidebar */
+    .page-layout {
+      display: flex;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 160px 48px 100px;
+      gap: 64px;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar-nav {
+      position: sticky;
+      top: 120px;
+      width: 220px;
+      flex-shrink: 0;
+      height: max-content;
+      font-family: var(--font-geist);
+    }
+    .sidebar-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar-nav li {
+      margin-bottom: 12px;
+    }
+    .sidebar-nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      letter-spacing: -0.01em;
+      transition: color 0.2s ease;
+      display: block;
+      line-height: 1.4;
+    }
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .sidebar-nav .nested {
+      margin-top: 10px;
+      margin-left: 0;
+      border-left: 1px solid var(--border);
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .sidebar-nav .nested li {
+      margin-bottom: 0;
+    }
+    .sidebar-nav .nested a {
+      font-size: 13px;
+    }
+
+    /* Update existing article layout to sit next to sidebar */
+    .article-layout {
+      flex-grow: 1;
+      max-width: 720px;
+      padding: 0;
+      margin: 0;
+    }
+    
+    @media (max-width: 900px) {
+      .page-layout { flex-direction: column; padding: 120px 24px 80px; }
+      .sidebar-nav { position: relative; top: 0; width: 100%; border-bottom: 1px solid var(--border); padding-bottom: 32px; margin-bottom: 16px; }
+      .article-layout { padding: 0; }
+    }
+
+    /* Editorial Layout (Old layout removed) */
+
+    /* Typography */
+    h1 {
+      font-family: var(--font-geist);
+      font-size: clamp(40px, 6vw, 64px);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 24px;
+    }
+    
+    .hero-meta {
+      display: flex; gap: 24px; margin-bottom: 60px; flex-wrap: wrap;
+      font-family: var(--font-geist); font-size: 15px; color: var(--text-muted);
+      border-bottom: 1px solid var(--border); padding-bottom: 32px; line-height: 1.5; letter-spacing: -0.01em;
+    }
+    .meta-item strong { 
+      display: block; color: var(--text-main); margin-bottom: 4px; font-weight: 500; font-family: var(--font-inter-tight); font-size: 14px; letter-spacing: -0.02em; text-transform: uppercase;
+    }
+
+    h2 {
+      font-family: var(--font-geist);
+      font-size: 32px;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      font-weight: 600;
+      color: var(--text-main);
+      margin: 80px 0 24px;
+    }
+
+    h3 {
+      font-family: var(--font-geist);
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      font-weight: 600;
+      color: var(--text-main);
+      margin: 48px 0 16px;
+    }
+
+    h4 {
+      font-family: var(--font-inter-tight);
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin: 40px 0 16px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 24px;
+      color: var(--text-body);
+      letter-spacing: -0.01em;
+    }
+    
+    .hurdle {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid #F59E0B;
+      padding: 24px;
+      border-radius: 8px;
+      margin: 40px 0;
+    }
+    .hurdle h3 { margin-top: 0; color: #F59E0B; }
+    .hurdle p:last-child { margin-bottom: 0; }
+
+    .color-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 40px 0;
+    }
+    .color-swatch {
+      padding: 24px;
+      border-radius: 12px;
+      color: #fff;
+      font-family: var(--font-geist);
+    }
+    .color-swatch .hex { font-family: var(--font-inter); font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+    .color-swatch .name { font-size: 16px; opacity: 0.9; margin-bottom: 4px; }
+    .color-swatch .desc { font-size: 14px; opacity: 0.7; }
+
+    .media-placeholder {
+      width: 100%;
+      background-color: var(--surface-neutral, #eeeeee);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin: 48px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Fragment Mono", monospace;
+      color: var(--text-muted);
+      font-size: 14px;
+      overflow: hidden;
+    }
+    .media-placeholder img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  
+  
+    .page-hero-dark {
+      width: 100%;
+      background-color: #000;
+      color: #ffffff;
+      padding: 160px 48px 80px;
+    }
+    .page-hero-dark .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .page-hero-dark h1 {
+      color: #ffffff;
+      margin-top: 0;
+    }
+    .page-hero-dark p {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    .page-hero-dark .hero-meta {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 32px;
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .page-hero-dark .meta-item strong {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .content-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .content-block h2 {
+      margin-top: 0;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+
+    /* ── Case Study Floating Navigation ── */
+    .case-float-nav {
+      position: fixed;
+      bottom: 32px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(0,0,0,0.09);
+      border-radius: 16px;
+      padding: 12px 18px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.09);
+      transition: transform 0.22s cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 0.22s ease,
+                  border-color 0.22s ease;
+      font-family: var(--font-inter-tight, sans-serif);
+      max-width: 200px;
+    }
+    .case-float-nav:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 44px rgba(0,0,0,0.14);
+      border-color: rgba(0,0,0,0.18);
+    }
+    .case-float-nav--next { right: 32px; align-items: flex-end; text-align: right; }
+    .case-float-nav--prev { left:  32px; align-items: flex-start; text-align: left; }
+
+    .case-float-nav__label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #999;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .case-float-nav__title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+      line-height: 1.3;
+    }
+    .case-float-nav__arrow {
+      width: 12px;
+      height: 12px;
+      stroke: #aaa;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.2s cubic-bezier(0.16,1,0.3,1),
+                  stroke 0.2s ease;
+    }
+    .case-float-nav--next:hover .case-float-nav__arrow { transform: translateX(3px); stroke: #111; }
+    .case-float-nav--prev:hover .case-float-nav__arrow { transform: translateX(-3px); stroke: #111; }
+
+    @media (max-width: 768px) {
+      .case-float-nav { bottom: 20px; padding: 10px 14px; max-width: 160px; }
+      .case-float-nav--next { right: 16px; }
+      .case-float-nav--prev { left:  16px; }
+      .case-float-nav__title { font-size: 12px; }
+    }
+
+    
+    /* --- INJECTED HEADER CSS FROM POA --- */
+    .header-fixed-wrap {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      padding: 0 24px;
+      pointer-events: none;
+    }
+
+    .nav-glass-capsule {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 9999px;
+      padding: 6px 8px 6px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.03em;
+      color: #000;
+      text-decoration: none;
+      font-family: var(--font-geist, "Geist", sans-serif);
+    }
+    
+    .nav-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
+      align-self: center;
+    }
+
+    .nav-back-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 32px;
+      padding: 0 16px;
+      box-sizing: border-box;
+      font-family: var(--font-inter-tight, "Inter Tight", sans-serif);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: #000000;
+      background: #ffffff;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-back-cta span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+
+    .nav-back-cta svg {
+      display: block;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-back-cta:hover {
+      transform: scale(1.03);
+      background: #f4f4f4;
+    }
+
+    .nav-back-cta:hover svg {
+      transform: translateX(-2px);
+    }
+
+  
+    /* --- INJECTED LAYOUT FIX --- */
+    .page-layout {
+      padding-top: 64px !important;
+    }
+    @media (max-width: 900px) {
+      .page-layout {
+        padding-top: 40px !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <header class="header-fixed-wrap" id="fixedCapsuleHeader">
+    <nav class="nav-glass-capsule">
+      <a href="index.html#work" class="nav-logo" title="Rajat Bhandari Portfolio">
+        <span>Rajat Bhandari</span>
+      </a>
+      <div class="nav-divider" aria-hidden="true"></div>
+      <a href="index.html#work" class="nav-back-cta">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 8H3M7 12L3 8l4-4"/>
+        </svg>
+        <span>Back to Portfolio</span>
+      </a>
+    </nav>
+  </header>
+
+  
+  
+  <section class="page-hero-dark">
+    <div class="hero-inner">
+      <h1>Dell Dark Mode:<br>Building a Dell-Owned Color System</h1>
+
+    <div class="hero-meta">
+      <div class="meta-item">
+        <strong>Role</strong>
+        Principal Product Designer, Design Lead
+      </div>
+      <div class="meta-item">
+        <strong>Team</strong>
+        Myself + 1 design lead + 1 designer, partnered with DDS (Dell Design System)
+      </div>
+      <div class="meta-item">
+        <strong>Outcome</strong>
+        71% preference for the new grey system · 37%+ daily dark mode usage post-launch
+      </div>
+      <div class="meta-item">
+        <strong>Scope</strong>
+        Dell Sales Application (DSA): color system, accessibility validation, and developer tokenization
+      </div>
+      <div class="meta-item">
+        <strong>Approach</strong>
+        Lean UX
+      </div>
+    </div>
+    </div>
+  </section>
+<div class="page-layout">
+    <aside class="sidebar-nav">
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li>
+          <a href="#problem">01. Problem</a>
+          <ul class="nested">
+            <li><a href="#starting-point">1.1 The Starting Point</a></li>
+            <li><a href="#my-role">1.2 My Role</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#reframe">02. Reframe</a>
+          <ul class="nested">
+            <li><a href="#reframing">2.1 The Core Insight</a></li>
+            <li><a href="#existing-greys">2.2 Testing the Obvious Fix</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#design">03. Design</a>
+          <ul class="nested">
+            <li><a href="#benchmarking">3.1 Benchmarking the Pattern</a></li>
+            <li><a href="#building-palette">3.2 Building a Dell-Owned Scale</a></li>
+            <li><a href="#the-decision">3.3 Making the Decision</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#validation">04. Build the Case</a>
+          <ul class="nested">
+            <li><a href="#proof">4.2 Two Rounds of Evidence</a></li>
+            <li><a href="#stakeholder-case">4.1 Aligning the Organization</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#scale">05. Scale</a>
+          <ul class="nested">
+            <li><a href="#infrastructure">System + Developer Infrastructure</a></li>
+            <li><a href="#outcome">5.2 Outcome</a></li>
+          </ul>
+        </li>
+      </ul>
+    </aside>
+
+    <article class="article-layout">
+
+<section class="content-block">
+  <h2 id="overview">Overview</h2>
+    <p>Dell had already built a dark mode. It used <strong>Slate</strong>, a muted blue drawn directly from Dell's brand palette.</p>
+    <p>The existing dark mode had already been built, but early feedback showed low willingness to adopt it, accessibility failures, and discomfort reading the interface.</p>
+    <p>I joined the work to investigate those accessibility failures, not to redesign the theme. The investigation became a broader product and system decision: whether dark mode should continue to be defined by a brand color, and if not, what a Dell-owned alternative should look like.</p>
+    <p>This case study focuses on the <strong>Dell Sales Application (DSA)</strong>, an internal-facing sales tool. The initiative ran internally under the codename <strong>Project Aurora</strong>.</p>
+
+    <div class="media-placeholder">
+      <img src="assets/overview_slate_dark_mode.jpg" alt="Early Slate Dark Mode iteration for Dell Sales Application">
+    </div>
+
+    
+</section>
+
+<section class="content-block">
+  <h2 id="problem">01. Problem</h2>
+    <h3 id="starting-point">1.1 The Starting Point</h3>
+    <p>Before I joined the project, Dell had already run an early design review with roughly 100 people. They were shown the Slate dark mode interface and asked whether they would use it.</p>
+    <p>Only <strong>30%</strong> said yes. Of that group, <strong>25%</strong> cited “it's our brand color” as their reason for liking it. The remaining 70% said no, with accessibility problems and general discomfort among the reasons they gave.</p>
+    <p>Several components also failed WCAG contrast requirements outright.</p>
+    <p>The signal was important: people were not rejecting dark mode as a concept. They were rejecting the implementation in front of them.</p>
+
+    <h3 id="my-role">1.2 My Role</h3>
+    <p>My team was originally brought in to investigate the accessibility failures and report findings back to the brand team. I led the design direction for the initiative, working with a design lead and one designer.</p>
+    <p>As the investigation expanded, I coordinated with <strong>Branding, Business, Accessibility, Product Management, and Dell Design System (DDS)</strong>. My role grew from investigating a color problem to defining the design direction, building the evidence for the decision, and coordinating its path into implementation.</p>
+
+    
+</section>
+
+<section class="content-block">
+  <h2 id="reframe">02. Reframe</h2>
+    <h3 id="reframing">2.1 The Core Insight</h3>
+    <p>The starting assumption was straightforward: Slate was a Dell brand color, so using it in dark mode reinforced the brand.</p>
+    <p>I tested that logic against the actual job dark mode needed to do. If the same principle were applied to another brand, an Airbnb dark mode might be expected to revolve around signature red. That would preserve the brand, but it would not automatically make the interface comfortable to use in low-light conditions.</p>
+    <p>That distinction became the core of the project: <strong>dark mode is a utility first, not a branding surface.</strong> For this product, dark mode had to optimize first for comfort, legibility, and accessibility. Brand expression could still exist around that foundation rather than determining the surface color itself.</p>
+    <p>A second framing helped move the discussion from preference to product risk:</p>
+    <p><strong>My argument in cross-functional discussions was that Slate introduced an unfamiliar pattern into a behavior users already understood from other tools.</strong></p>
+    <p>That changed the burden of proof. The question was no longer simply “Why is grey better?” It became “Why should users have to relearn dark mode in order to use Dell?”</p>
+
+    <h4>Problem Statement</h4>
+    <p>Dell's Slate-based dark mode had low willingness to adopt and failed WCAG contrast requirements. We needed a dark-mode system that was comfortable, accessible, evidence-backed, and still clearly owned by Dell.</p>
+
+    <h3 id="existing-greys">2.2 Testing the Obvious Fix</h3>
+    <p>The first solution was intentionally simple: use Dell's existing Grey 800–900 values instead of Slate.</p>
+    <p>That did not solve the problem. The colors still failed accessibility checks, and they did not produce the visual behavior we were looking for. The answer was not already sitting in the existing palette.</p>
+
+    <div class="media-placeholder" style="margin-top: 32px; margin-bottom: 0;">
+      <img src="assets/hurdle_existing_greys.jpg" alt="Applying Dell's existing Grey 800-900 palette">
+    </div>
+
+    
+</section>
+
+<section class="content-block">
+  <h2 id="design">03. Design</h2>
+    <h3 id="benchmarking">3.1 Benchmarking the Pattern</h3>
+    <p>To establish what a comfortable grey dark mode could look like, I brought <strong>established reference patterns</strong> from tools people already use into Dell's actual screens. I tested dark mode colors from <strong>VS Code, Google, and Microsoft Teams</strong> directly against DSA interfaces.</p>
+    <p>The internal design team responded positively almost immediately. That gave us a visual direction, but it did not give us something Dell could ship. We could not simply adopt Google's grey or Microsoft's grey and call it a Dell system.</p>
+
+    <div class="media-placeholder" style="margin-top: 32px; margin-bottom: 48px;">
+      <img src="assets/design_detour_comparison.png" alt="Comparison of Dell's Grey vs New Grey using external palettes" style="width: 100%; aspect-ratio: 753 / 930; object-fit: cover; object-position: bottom;">
+    </div>
+
+    <h3 id="building-palette">3.2 Building a Dell-Owned Scale</h3>
+    <p>The next constraint was more useful: <strong>find a grey that behaved like established reference systems while still belonging to Dell.</strong></p>
+    <p>I went back into the gap between Dell's Grey 800 and Grey 900 and interpolated <strong>20 distinct shades</strong>. That gave us a finer-grained scale than the existing system and created enough resolution to search for a close match rather than choosing from two or three coarse values.</p>
+
+    <div class="media-placeholder" style="width: 50%; margin: 32px auto 48px auto;">
+      <img src="assets/interpolated_greys.jpg" alt="20 distinct interpolated shades between Dell Grey 800 and Grey 900">
+    </div>
+
+    <h3 id="the-decision">3.3 Making the Decision</h3>
+    <p>Twenty options gave us range, but not a decision rule. I needed an external reference point that was already established in a mature design system.</p>
+    <p>I reviewed how major systems handle dark mode, including <strong>Salesforce, IBM Carbon, Adobe Spectrum, Microsoft Fluent, and HP</strong>. Google's documentation was particularly useful because it clearly explained its use of <strong>#121212</strong> as a dark-theme surface rather than pure black. The reference gave us a concrete benchmark for the visual behavior we were trying to reproduce.</p>
+    <p>I compared <strong>#121212</strong> against the 20 Dell-owned interpolated shades, looking for the closest visual match while preserving the surrounding scale and elevation behavior. <strong>#171717</strong> was the closest fit, so it became <strong>Grey 890</strong>.</p>
+    <p>That decision also established a broader 20-step ramp from Grey 900 down to Grey 810, giving the system fine-grained control over surface and elevation rather than relying on the limited range available in the previous Slate approach.</p>
+
+    <div class="color-swatch-grid">
+      <div class="color-swatch" style="background: #1B2433; border: 1px solid #3E4452;">
+        <div class="hex">#1B2433</div>
+        <div class="name">SLATE BLUE · LEGACY</div>
+        <div class="desc">70% said no in the early review / WCAG failures</div>
+      </div>
+      <div class="color-swatch" style="background: #121212; border: 1px solid #3E4452;">
+        <div class="hex">#121212</div>
+        <div class="name">GOOGLE DARK THEME</div>
+        <div class="desc">External reference point</div>
+      </div>
+      <div class="color-swatch" style="background: #171717; border: 1px solid #3E4452;">
+        <div class="hex">#171717</div>
+        <div class="name">DELL INTERPOLATED</div>
+        <div class="desc">Native Dell-owned surface base</div>
+      </div>
+      <div class="color-swatch" style="background: #242424; border: 1px solid #3E4452;">
+        <div class="hex">#242424</div>
+        <div class="name">ELEVATED CONTAINER</div>
+        <div class="desc">Layer 1 card elevation</div>
+      </div>
+    </div>
+
+    <p>The new grey system was then checked component by component against WCAG contrast requirements. We evaluated actual button, tag, and text pairings rather than validating only the base surface color.</p>
+
+    <div class="media-placeholder" style="padding: 24px; display: block;">
+      <img src="assets/contrast_audit_buttons.jpg" alt="WCAG contrast audit of button components against the new grey background, with pass/fail ratios for Normal Text, Large Text, and Graphical Objects">
+    </div>
+    <div class="media-placeholder" style="padding: 24px; margin-top: 24px; display: block;">
+      <img src="assets/contrast_audit_tags.jpg" alt="WCAG contrast audit of tag label components across the full color palette against the new grey background">
+    </div>
+
+    <p>The audit gave us a more precise picture than a simple pass/fail exercise. High-emphasis pairings such as primary buttons, body text, and icons cleared AA comfortably, with several reaching the 11:1–16:1 range. Lower-emphasis pairings were not treated as acceptable by default: variants below 2:1 were removed from text use and restricted to large text, graphical, or decorative contexts.</p>
+
+    <p>We also tested elevation behavior. IBM Carbon's dark theme reinforced the same principle: surfaces become lighter as they move closer to the virtual light source. The base background uses #161616, with Layer 1 at #262626. That model helped us ensure the new palette behaved as a system rather than as a collection of isolated grey values.</p>
+
+    <div class="media-placeholder" style="margin-top: 32px; margin-bottom: 48px;">
+      <img src="assets/elevation_example.jpg" alt="Dark mode elevation and virtual light source illustration">
+    </div>
+
+    
+</section>
+
+<section class="content-block">
+  <h2 id="validation">04. Build the Case</h2>
+    <h3 id="stakeholder-case">4.1 Aligning the Organization</h3>
+    <p>The design decision only mattered if the organization could support it. The 20 new shades were not part of Dell's official brand guidelines, so moving forward required alignment across groups with different definitions of risk.</p>
+
+    <div class="media-placeholder" style="margin: 32px 0;">
+      <img src="assets/stakeholder_map.png" alt="Stakeholder map showing Responsible, Accountable, Consulted, and Informed groups across IT, Design, and Business">
+    </div>
+
+    <ul style="margin: 0 0 24px 20px; font-size: 18px; color: var(--text-body); line-height: 1.6; letter-spacing: -0.02em;">
+      <li style="margin-bottom: 8px;"><strong>Branding</strong> needed to know whether moving away from a signature hue would reduce Dell's visual distinctiveness.</li>
+      <li style="margin-bottom: 8px;"><strong>Business</strong> needed to understand the roadmap and approval risk.</li>
+      <li style="margin-bottom: 8px;"><strong>Accessibility</strong> needed measurable WCAG evidence, not a visual preference argument.</li>
+      <li style="margin-bottom: 8px;"><strong>Product Management</strong> needed clarity on the blast radius and whether this was a theming change or a broader DSA change.</li>
+      <li style="margin-bottom: 8px;"><strong>DDS</strong> needed confidence that the new shades would not fracture the existing token system.</li>
+    </ul>
+
+    <p>I adapted the same core case to each concern: documented accessibility failures, the utility-first role of dark mode, and the familiarity argument. I also reframed the decision so Slate did not have to disappear. It could remain available as a theme option rather than being forced as the default.</p>
+    <p>That gave each group a way to support experimentation without treating the decision as a permanent loss of the existing brand expression.</p>
+
+    <h3 id="proof">4.2 Two Rounds of Evidence</h3>
+    <p>Validation happened in two rounds with different audiences and different purposes.</p>
+    <p>The first was a directional internal survey of <strong>300 respondents</strong> across the company, including designers, product managers, and developers. We showed the Slate and grey interfaces side by side and asked which direction they would choose. It was intentionally a temperature check, not formal usability testing.</p>
+    <p>The second was a focused study with <strong>69 external users</strong>. Participants compared the greyish and blueish options and explained their choice in terms of comfort, contrast, or familiarity. Comfort was a recurring reason, and the grey direction was preferred overall.</p>
+    <p><strong>71% preferred the grey system.</strong> The internal survey alone would not have been strong enough evidence to make the case. The combination of directional internal signal and external-user reasoning made the decision much easier to defend.</p>
+
+    <div class="media-placeholder" style="margin-top: 32px; margin-bottom: 48px;">
+      <img src="assets/validation_results.jpg" alt="Results from the external-user validation study showing preference reasons including comfort, contrast, and familiarity">
+    </div>
+
+    
+</section>
+
+<section class="content-block">
+  <h2 id="scale">05. Scale</h2>
+    <h3 id="infrastructure">5.1 From Color Decision to Product Infrastructure</h3>
+    <p>Once the palette was validated and approved, the next challenge was implementation. Raw hex values had to become semantic tokens that developers could use consistently.</p>
+    <p>My team did not own deep expertise in Dell's design-system architecture. Instead of recreating that infrastructure ourselves, we brought in a specialist from DDS to lead the tokenization work. The design decision remained ours to drive; the system architecture was handed to the team that owned it.</p>
+    <p>Because this was an MVP scoped to DSA, the token system was built for developers. A full Figma library for designers came later outside this phase.</p>
+
+    <div class="media-placeholder" style="width: 25%; margin: 32px auto 24px auto;">
+      <img src="assets/token_system_1.jpg" alt="Tokenizing the grey color palette">
+    </div>
+    <div class="media-placeholder" style="margin-bottom: 24px;">
+      <img src="assets/token_system_2.png" alt="Figma workspace detailing dark mode components and styles">
+    </div>
+    <div class="media-placeholder" style="margin-bottom: 24px;">
+      <img src="assets/token_system_3.png" alt="Overview of the massive cross-product dark mode Figma file">
+    </div>
+    <div class="media-placeholder" style="margin-bottom: 48px;">
+      <img src="assets/token_system_4.jpg" alt="Final implemented UI of the Dell Sales Application in the new dark mode">
+    </div>
+
+    <p>DSA product teams had written extensive custom CSS to force their components into Slate theming. Those workarounds were potential breakage points every time the experience changed.</p>
+    <p>Tokenizing the new grey system reduced that dependency. Developers no longer needed those Slate-specific hacks to apply the new theme consistently; the system could handle the theming in a shared way.</p>
+
+    <p>We also tested the system against live dashboard components because DSA is not only forms and quote tables. Charts, gauges, and ranking widgets all had to work against the new palette. That let us validate the system with real data rather than only static UI mockups.</p>
+
+    <div class="media-placeholder" style="margin-top: 32px; margin-bottom: 24px;">
+      <img src="assets/data_viz_palettes.png" alt="Data visualization color palettes tested against DSA's dashboard charts and components">
+    </div>
+    <div class="media-placeholder" style="margin-bottom: 48px;">
+      <img src="assets/developer_handoff.png" alt="Developer handoff showing component matrix and variable tokens">
+    </div>
+
+    <h3 id="outcome">5.2 Outcome</h3>
+    <p>The project changed more than the background color.</p>
+    <p>It replaced a brand-driven dark-mode assumption with a Dell-owned system grounded in accessibility, established dark-mode patterns, user preference, and implementation constraints.</p>
+    <p>The new direction received <strong>71% preference</strong> in validation, was converted into semantic developer tokens, and reduced the need for Slate-specific CSS workarounds. Post-launch, <strong>37%+ of DSA users were using dark mode daily</strong>.</p>
+    <p>The important outcome was not choosing grey over slate. It was creating enough evidence, structure, and shared ownership for an organization to make a decision that had previously been treated largely as a matter of brand preference.</p>
+</section>
+
+</article>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const headings = document.querySelectorAll('.article-layout h2[id], .article-layout h3[id]');
+      const navLinks = document.querySelectorAll('.sidebar-nav a');
+      
+      const observerOptions = {
+        root: null,
+        rootMargin: '-120px 0px -60% 0px',
+        threshold: 0
+      };
+
+      let currentActiveId = null;
+
+      const observer = new IntersectionObserver((entries) => {
+        // Find all intersecting entries in this batch
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            currentActiveId = entry.target.id;
+          }
+        });
+        
+        // Update navigation classes
+        if (currentActiveId) {
+          navLinks.forEach(link => {
+            if (link.getAttribute('href') === '#' + currentActiveId) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
+        }
+      }, observerOptions);
+
+      headings.forEach(heading => observer.observe(heading));
+    });
+  </script>
+<a href="POA.html" class="case-float-nav case-float-nav--prev" aria-label="Prev case study: PO Assistant">
+  <span class="case-float-nav__label"><svg class="case-float-nav__arrow" viewBox="0 0 12 12"><path d="M10 6H2M5 3L2 6l3 3"/></svg> Previous Case Study</span>
+  <span class="case-float-nav__title">PO Assistant</span>
+</a>
+<a href="USHealthcare.html" class="case-float-nav case-float-nav--next" aria-label="Next case study: US Healthcare">
+  <span class="case-float-nav__label">Next Case Study <svg class="case-float-nav__arrow" viewBox="0 0 12 12"><path d="M2 6h8M7 3l3 3-3 3"/></svg></span>
+  <span class="case-float-nav__title">US Healthcare</span>
+</a>
+
+</body>
+</html>

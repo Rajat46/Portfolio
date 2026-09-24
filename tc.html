@@ -1,0 +1,300 @@
+  <!-- ==========================================================================
+       TEAM CULTURE - SCROLL MORPH HERO
+       ========================================================================== -->
+  <section class="team-culture-sec" style="position: relative; height: 300vh; background: #FAFAFA;">
+    <div class="tc-sticky" style="position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 1000px;">
+      
+      <!-- Intro Text -->
+      <div class="tc-text-1" style="position: absolute; text-align: center; z-index: 0; filter: blur(10px); opacity: 0; transform: translateY(20px);">
+          <h1 style="font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 500; color: #1f2937; letter-spacing: -0.02em; margin:0; font-family: 'Geist', -apple-system, sans-serif;">The future is built on AI.</h1>
+          <p style="margin-top: 1rem; font-size: 0.75rem; font-weight: bold; letter-spacing: 0.2em; color: #6b7280; text-transform: uppercase; font-family: 'Inter', sans-serif;">Scroll to explore</p>
+      </div>
+
+      <!-- Arc Active Content -->
+      <div class="tc-text-2" style="position: absolute; top: 10%; z-index: 10; text-align: center; opacity: 0; transform: translateY(20px); padding: 0 1rem;">
+          <h2 style="font-size: clamp(2rem, 5vw, 3rem); font-weight: 600; color: #111827; margin-bottom: 1rem; letter-spacing: -0.02em; font-family: 'Geist', -apple-system, sans-serif;">Explore Our Vision</h2>
+          <p style="font-size: clamp(0.875rem, 2vw, 1rem); color: #4b5563; max-width: 32rem; line-height: 1.6; margin: 0 auto; font-family: 'Inter', sans-serif;">Discover a world where technology meets creativity. <br class="hidden md:block" style="display:none;" />Scroll through our curated collection of innovations designed to shape the future.</p>
+      </div>
+
+      <!-- Cards Container -->
+      <div class="tc-cards" style="position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+         <!-- JavaScript will inject cards here -->
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .tc-card {
+      position: absolute;
+      width: 60px;
+      height: 85px;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      will-change: transform;
+    }
+    .tc-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .tc-card:hover .tc-card-inner {
+      transform: rotateY(180deg);
+    }
+    .tc-card-front, .tc-card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tc-card-front {
+      background: #e5e7eb;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    }
+    .tc-card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .tc-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    .tc-card:hover .tc-card-overlay {
+      background: transparent;
+    }
+    .tc-card-back {
+      transform: rotateY(180deg);
+      background: #111827;
+      border: 1px solid #374151;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .tc-card-back-title {
+      font-size: 8px;
+      font-weight: bold;
+      color: #60a5fa;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+      font-family: 'Inter', sans-serif;
+    }
+    .tc-card-back-desc {
+      font-size: 12px;
+      font-weight: 500;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+    }
+    @media (min-width: 768px) {
+      .tc-text-2 br { display: block !important; }
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const tcImages = [
+        "https://cdn.21st.dev/assets/mirror/4d/4d1bff4ea8b9f400dff7ae405f92e15bd39ec76e9285c7d96017e64ba1de3ae1.jpg",
+        "https://cdn.21st.dev/assets/mirror/ee/ee36e332fe99d7611c43b90511db08a4f84e4545caa78e7b52e9ccffe273864b.jpg",
+        "https://cdn.21st.dev/assets/mirror/dd/dddeaa4e6132c65bf7ff99d197f792a30937b5cbfe97a2b1ee54a793684df52e.jpg",
+        "https://cdn.21st.dev/assets/mirror/48/487977107b5011b5e1c25289f6e4393ef555e1a92daee554788e9363b233ca14.jpg",
+        "https://cdn.21st.dev/assets/mirror/a1/a12509688be6c9d3b2cb26d2ea1cfce48b8a8dbf2653e17be8a3fc31bd69f162.jpg",
+        "https://cdn.21st.dev/assets/mirror/05/051f9e565b5b0b221384d9c27a0760febc3fb48d190c046adfda579f3614c958.jpg",
+        "https://cdn.21st.dev/assets/mirror/87/87d4f60a4465d19d14b8acefa46275df4ccd767ccea6d7f234ea5bad99cfec56.jpg",
+        "https://cdn.21st.dev/assets/mirror/06/0610989e0675a12c02d35aa5464e2644bf77913214b748b73a894808d2d79877.jpg",
+        "https://cdn.21st.dev/assets/mirror/fe/fe90b90751e671a9526134c4743e2fcbf6c1a24991aba273ad7418c88fc9c701.jpg",
+        "https://cdn.21st.dev/assets/mirror/2e/2e0452c1994fcc2130a1b8ef68e34b5ea52d1b35b80dde09b99349ad1de54598.jpg",
+        "https://cdn.21st.dev/assets/mirror/84/847dc523558808119dc4bbb5218ff862ae5f5b455f33e9a0304f2f5a4b2f0f2c.jpg",
+        "https://cdn.21st.dev/assets/mirror/2f/2f128763d177d6bdda3de9f0a766693406034977082bdb542138b7b74af9697b.jpg",
+        "https://cdn.21st.dev/assets/mirror/30/30f8223f1d1ecc24fc8b7a9995b8ee98449b1e9fc300c14fbccec01b6a83a0ae.jpg",
+        "https://cdn.21st.dev/assets/mirror/b4/b4df0e3e425ffce3b4f62fd7bc717e4dc90b94455f4d65d64fc07fe9721b0519.jpg",
+        "https://cdn.21st.dev/assets/mirror/90/90c625659f072e4a701c2e37fa4ca46f25c7ca8689d723e7802fe84cf17874e9.jpg",
+        "https://cdn.21st.dev/assets/mirror/6a/6aa0befc69cc3db8f3f3558d4b5e1216a5b64ceae1b86f51acf1c3f1432a8cf7.jpg",
+        "https://cdn.21st.dev/assets/mirror/dc/dc126cfd753dc217945d0ea2f915e539dfe4ffb5fdea02245d0f576b25a9c4dd.jpg",
+        "https://cdn.21st.dev/assets/mirror/ab/ab5f167fcb763aee7c3247fb8af97875998a7f519a6119da7dadd9cf73ae1a2c.jpg",
+        "https://cdn.21st.dev/assets/mirror/57/57d6e450f7068e5f3be04907dcc0815343e67df1dc82f2da0ff1c859afc1f700.jpg",
+        "https://cdn.21st.dev/assets/mirror/e4/e491359016d1494074e287dfbb55be068cffc0110017ae2257a5d4cdec193a47.jpg"
+      ];
+
+      const TOTAL = 20;
+      const cardsContainer = document.querySelector('.tc-cards');
+      const cards = [];
+
+      // Create DOM elements
+      tcImages.forEach((src, i) => {
+        const el = document.createElement('div');
+        el.className = 'tc-card';
+        el.innerHTML = `
+          <div class="tc-card-inner">
+             <div class="tc-card-front">
+                 <img src="${src}" alt="Team ${i}">
+                 <div class="tc-card-overlay"></div>
+             </div>
+             <div class="tc-card-back">
+                 <p class="tc-card-back-title">View</p>
+                 <p class="tc-card-back-desc">Details</p>
+             </div>
+          </div>
+        `;
+        cardsContainer.appendChild(el);
+        cards.push(el);
+        
+        // Scatter init
+        gsap.set(el, {
+          x: (Math.random() - 0.5) * 1500,
+          y: (Math.random() - 0.5) * 1000,
+          rotation: (Math.random() - 0.5) * 180,
+          scale: 0.6,
+          opacity: 0
+        });
+      });
+
+      // State Object for scrub interpolation
+      const morphState = { morph: 0, rot: 0 };
+      const parallaxObj = { val: 0 };
+
+      // Helpers
+      const lerp = (start, end, t) => start * (1 - t) + end * t;
+      
+      const getCirclePos = (i) => {
+          const cw = window.innerWidth;
+          const ch = window.innerHeight;
+          const radius = Math.min(Math.min(cw, ch) * 0.35, 350);
+          const angle = (i / TOTAL) * 360;
+          const rad = (angle * Math.PI) / 180;
+          return {
+              x: Math.cos(rad) * radius,
+              y: Math.sin(rad) * radius,
+              rotation: angle + 90,
+              scale: 1
+          };
+      };
+
+      const getArcPos = (i, rotProgress) => {
+          const cw = window.innerWidth;
+          const ch = window.innerHeight;
+          const isMobile = cw < 768;
+          const baseRadius = Math.min(cw, ch * 1.5);
+          const arcRadius = baseRadius * (isMobile ? 1.4 : 1.1);
+          
+          const arcApexY = -ch * 0.5 + ch * (isMobile ? 0.35 : 0.25);
+          const arcCenterY = arcApexY + arcRadius;
+          
+          const spreadAngle = isMobile ? 100 : 130;
+          const startAngle = -90 - (spreadAngle / 2);
+          const step = spreadAngle / (TOTAL - 1);
+          
+          const maxRotation = spreadAngle * 0.8;
+          const boundedRotation = -rotProgress * maxRotation;
+          
+          const currentArcAngle = startAngle + (i * step) + boundedRotation;
+          const arcRad = (currentArcAngle * Math.PI) / 180;
+          
+          return {
+              x: Math.cos(arcRad) * arcRadius + parallaxObj.val,
+              y: Math.sin(arcRad) * arcRadius + arcCenterY,
+              rotation: currentArcAngle + 90,
+              scale: isMobile ? 1.4 : 1.8
+          };
+      };
+
+      const renderMorph = () => {
+          cards.forEach((el, i) => {
+              const c = getCirclePos(i);
+              const a = getArcPos(i, morphState.rot);
+              
+              gsap.set(el, {
+                  x: lerp(c.x, a.x, morphState.morph),
+                  y: lerp(c.y, a.y, morphState.morph),
+                  rotation: lerp(c.rotation, a.rotation, morphState.morph),
+                  scale: lerp(c.scale, a.scale, morphState.morph)
+              });
+          });
+      };
+
+      let introPlayed = false;
+
+      // Intro Animation (triggered when entering view)
+      ScrollTrigger.create({
+        trigger: ".team-culture-sec",
+        start: "top 60%",
+        once: true,
+        onEnter: () => {
+          introPlayed = true;
+          const tl = gsap.timeline({ onComplete: () => {
+            // Update immediately at the end of intro to snap to any scroll state that might have occurred
+            if (morphState.morph > 0) renderMorph();
+          }});
+          
+          // Phase 1: Line
+          cards.forEach((el, i) => {
+            const lineSpacing = 70;
+            const lineX = i * lineSpacing - (TOTAL * lineSpacing) / 2;
+            tl.to(el, { x: lineX, y: 0, rotation: 0, scale: 1, opacity: 1, duration: 1, ease: "power3.out" }, 0);
+          });
+          
+          // Text 1 Intro
+          tl.to(".tc-text-1", { opacity: 1, filter: "blur(0px)", y: 0, duration: 1, ease: "power2.out" }, 0);
+          
+          // Phase 2: Circle
+          cards.forEach((el, i) => {
+            const c = getCirclePos(i);
+            tl.to(el, { x: c.x, y: c.y, rotation: c.rotation, duration: 1, ease: "power3.inOut" }, 1.2);
+          });
+          
+          tl.add(() => {
+             // Safe to render morph based on scrub state now
+             if(morphState.morph > 0) renderMorph();
+          });
+        }
+      });
+
+      // Scroll Animation (Morph to arc & rotate)
+      const scrubTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".team-culture-sec",
+          start: "top top",
+          end: "+=3000",
+          scrub: 1,
+          pin: true,
+          onUpdate: () => {
+            if (introPlayed) renderMorph();
+          }
+        }
+      });
+
+      // Morph 0 -> 1 (Circle to Arc) in first 20% of scroll
+      scrubTl.to(morphState, { morph: 1, duration: 2, ease: "none" })
+             .to(".tc-text-1", { opacity: 0, filter: "blur(10px)", duration: 1, ease: "none" }, 0)
+             .to(".tc-text-2", { opacity: 1, y: 0, duration: 1, ease: "none" }, 1);
+      
+      // Rotate Arc in remaining 80% of scroll
+      scrubTl.to(morphState, { rot: 1, duration: 8, ease: "none" }, 2);
+
+      // Mouse Parallax
+      document.querySelector('.team-culture-sec').addEventListener('mousemove', (e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const relX = e.clientX - rect.left;
+          const normX = (relX / rect.width) * 2 - 1;
+          gsap.to(parallaxObj, { val: normX * 100, duration: 0.6, ease: "power2.out", onUpdate: () => {
+              if (introPlayed && morphState.morph > 0) renderMorph();
+          }});
+      });
+      
+      // Re-render on resize
+      window.addEventListener('resize', () => {
+          if (introPlayed) renderMorph();
+      });
+    });
+  </script>
+
