@@ -152,27 +152,26 @@
       align-self: center;
     }
 
-    .nav-back-cta {
+        .nav-back-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      height: 32px;
-      padding: 0 16px;
+      padding: 8px 16px;
       box-sizing: border-box;
-      font-family: var(--font-inter-tight);
+      font-family: var(--font-inter, sans-serif);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 1;
-      letter-spacing: -0.01em;
-      color: #000000;
-      background: #ffffff;
-      border-radius: 9999px;
+      color: var(--token-text-solid, #000);
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
       text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+      transition: background-color 0.2s ease;
       white-space: nowrap;
       vertical-align: middle;
+      box-shadow: none;
     }
 
     .nav-back-cta span {
@@ -188,8 +187,8 @@
     }
 
     .nav-back-cta:hover {
-      transform: scale(1.03);
-      background: #f4f4f4;
+      background-color: rgba(0, 0, 0, 0.05);
+      transform: none;
     }
 
     .nav-back-cta:hover svg {
@@ -1493,15 +1492,15 @@
   <!-- Floating Capsule Header for Quick Back-Nav -->
   <header class="header-fixed-wrap" id="fixedCapsuleHeader">
     <nav class="nav-glass-capsule">
-      <a href="index.html#work" class="nav-logo" title="Rajat Bhandari Portfolio">
+      <a href="index.html#case-studies" class="nav-logo" title="Rajat Bhandari Portfolio">
         <span>Rajat Bhandari</span>
       </a>
       <div class="nav-divider" aria-hidden="true"></div>
-      <a href="index.html#work" class="nav-back-cta">
+      <a href="index.html#case-studies" class="nav-back-cta">
         <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M13 8H3M7 12L3 8l4-4"/>
         </svg>
-        <span>Back to Portfolio</span>
+        <span>Back to Home</span>
       </a>
     </nav>
   </header>

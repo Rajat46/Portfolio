@@ -74,10 +74,10 @@
       justify-content: center;
       gap: 16px;
       height: 44px;
-      background: rgba(18, 18, 18, 0.85);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(24px) saturate(180%);
       -webkit-backdrop-filter: blur(24px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(0, 0, 0, 0.08);
       border-radius: 9999px;
       padding: 0 6px 0 18px;
       box-sizing: border-box;
@@ -100,7 +100,7 @@
       font-size: 14px;
       line-height: 1;
       letter-spacing: -0.03em;
-      color: #ffffff;
+      color: var(--token-text-solid, #000);
       text-decoration: none;
       font-family: var(--font-geist);
       transition: opacity 0.2s ease;
@@ -143,27 +143,26 @@
       align-self: center;
     }
 
-    .nav-back-cta {
+        .nav-back-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      height: 32px;
-      padding: 0 16px;
+      padding: 8px 16px;
       box-sizing: border-box;
-      font-family: var(--font-inter-tight);
+      font-family: var(--font-inter, sans-serif);
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 500;
       line-height: 1;
-      letter-spacing: -0.01em;
-      color: #000000;
-      background: #ffffff;
-      border-radius: 9999px;
+      color: var(--token-text-solid, #000);
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
       text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+      transition: background-color 0.2s ease;
       white-space: nowrap;
       vertical-align: middle;
+      box-shadow: none;
     }
 
     .nav-back-cta span {
@@ -179,8 +178,8 @@
     }
 
     .nav-back-cta:hover {
-      transform: scale(1.03);
-      background: #f4f4f4;
+      background-color: rgba(0, 0, 0, 0.05);
+      transform: none;
     }
 
     .nav-back-cta:hover svg {
@@ -195,7 +194,7 @@
       width: 100%;
       min-height: 100vh;
       background-color: var(--token-canvas-dark);
-      color: #ffffff;
+      color: var(--token-text-solid, #000);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -537,98 +536,6 @@
     }
 
   
-    /* --- INJECTED HEADER CSS FROM POA --- */
-    .header-fixed-wrap {
-      position: fixed;
-      top: 20px;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      padding: 0 24px;
-      pointer-events: none;
-    }
-
-    .nav-glass-capsule {
-      pointer-events: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 9999px;
-      padding: 6px 8px 6px 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      transition: background 0.3s ease, border-color 0.3s ease;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      font-size: 15px;
-      letter-spacing: -0.03em;
-      color: #000;
-      text-decoration: none;
-      font-family: var(--font-geist, "Geist", sans-serif);
-    }
-    
-    .nav-divider {
-      width: 1px;
-      height: 16px;
-      background: rgba(0, 0, 0, 0.08);
-      flex-shrink: 0;
-      align-self: center;
-    }
-
-    .nav-back-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      height: 32px;
-      padding: 0 16px;
-      box-sizing: border-box;
-      font-family: var(--font-inter-tight, "Inter Tight", sans-serif);
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1;
-      letter-spacing: -0.01em;
-      color: #000000;
-      background: #ffffff;
-      border-radius: 9999px;
-      text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
-    }
-
-    .nav-back-cta span {
-      display: inline-flex;
-      align-items: center;
-      line-height: 1;
-    }
-
-    .nav-back-cta svg {
-      display: block;
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-
-    .nav-back-cta:hover {
-      transform: scale(1.03);
-      background: #f4f4f4;
-    }
-
-    .nav-back-cta:hover svg {
-      transform: translateX(-2px);
-    }
-
-  
     /* --- INJECTED LAYOUT FIX --- */
     .page-layout {
       padding-top: 64px !important;
@@ -646,15 +553,15 @@
   <!-- Floating Capsule Header for Quick Back-Nav -->
   <header class="header-fixed-wrap" id="fixedCapsuleHeader">
     <nav class="nav-glass-capsule">
-      <a href="index.html#work" class="nav-logo" title="Rajat Bhandari Portfolio">
+      <a href="index.html#case-studies" class="nav-logo" title="Rajat Bhandari Portfolio">
         <span>Rajat Bhandari</span>
       </a>
       <div class="nav-divider" aria-hidden="true"></div>
-      <a href="index.html#work" class="nav-back-cta">
+      <a href="index.html#case-studies" class="nav-back-cta">
         <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M13 8H3M7 12L3 8l4-4"/>
         </svg>
-        <span>Back to Portfolio</span>
+        <span>Back to Home</span>
       </a>
     </nav>
   </header>
